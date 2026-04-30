@@ -301,50 +301,28 @@ export default function App() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full -mr-20 -mt-20 animate-pulse" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-500/10 blur-[120px] rounded-full -ml-20 -mb-20" />
         
-        <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="mb-10 relative"
-          >
-            {/* Styled Avatar for Hero */}
-            <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-white/10 p-2 relative z-10 backdrop-blur-sm bg-slate-900/50 flex items-center justify-center">
-              <div className="w-full h-full rounded-full overflow-hidden border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.4)]">
-                <img 
-                  src="/profile.png" 
-                  alt="Axel Zombré" 
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-            </div>
-            {/* Decorative circles */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-cyan-500/20 rounded-full animate-[spin_10s_linear_infinite]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-orange-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-          </motion.div>
-
-          <div className="max-w-4xl">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:text-left text-center">
+          <div className="flex-1 max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-6 mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-6 lg:mx-0 mx-auto">
                 <Box className="w-4 h-4" />
                 <span>Disponible pour de nouveaux défis</span>
               </div>
-              <h1 className="text-5xl md:text-8xl font-bold mb-6 leading-tight">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
                 Transformons Votre <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
                   Impact Digital
                 </span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl lg:mx-0 mx-auto leading-relaxed">
                 Étudiant en 3ème année Marketing & Innovation Digitale, passionné par la fusion entre stratégie data-driven et créativité visuelle.
               </p>
               
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-wrap gap-4 lg:justify-start justify-center">
                 <button 
                   onClick={() => scrollTo('projects')}
                   className="px-10 py-5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-900/20 flex items-center gap-2 group text-lg"
@@ -367,6 +345,28 @@ export default function App() {
               </div>
             </motion.div>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="relative lg:w-1/3 flex justify-center"
+          >
+            {/* Styled Avatar for Hero shifted to the right */}
+            <div className="w-64 h-64 md:w-80 md:h-80 rounded-3xl border-4 border-white/10 p-2 relative z-10 backdrop-blur-sm bg-slate-900/50 flex items-center justify-center rotate-3 hover:rotate-0 transition-transform duration-500">
+              <div className="w-full h-full rounded-2xl overflow-hidden border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.4)]">
+                <img 
+                  src="/profile.png" 
+                  alt="Axel Zombré" 
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+            </div>
+            {/* Decorative elements */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-cyan-500/20 rounded-3xl scale-110 -rotate-6 animate-pulse" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-orange-500/10 rounded-3xl scale-125 rotate-12" />
+          </motion.div>
         </div>
       </section>
 
