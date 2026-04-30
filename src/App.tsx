@@ -257,9 +257,9 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-orange-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity" />
                 <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-white/20 bg-slate-800 shadow-2xl">
                   <img 
-                    src="regenerated_image_1777537327781.png" 
+                    src="/regenerated_image_1777537327781.png" 
                     alt="Axel Zombré"
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                    className="w-full h-full object-cover hover:scale-110 transition-all duration-500"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300";
                     }}
