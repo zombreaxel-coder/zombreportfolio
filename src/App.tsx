@@ -25,7 +25,8 @@ import {
   Clock,
   Box,
   Menu,
-  X
+  X,
+  MessageCircle
 } from 'lucide-react';
 
 // --- Types ---
@@ -190,41 +191,6 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // Contact Form State
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-
-    setIsSubmitting(true);
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        alert('Erreur lors de l\'envoi du message.');
-      }
-    } catch (error) {
-      console.error('Erreur:', error);
-      alert('Une erreur est survenue.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -584,114 +550,44 @@ export default function App() {
       {/* Contact Section */}
       <section id="contact" className="py-24 bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <SectionTitle title="Parlons de Vos Projets" subtitle="Contact" />
-              <p className="text-gray-400 mb-12 text-lg">
-                Vous avez un projet en tête ? N'hésitez pas à me contacter par téléphone ou par email pour discuter de vos besoins.
-              </p>
-              
-              <div className="space-y-6">
-                {[
-                  { icon: <Mail />, label: "Email", value: "wenkuni20@outlook.com", link: "mailto:wenkuni20@outlook.com" },
-                  { icon: <Phone />, label: "Téléphone", value: "+226 74 44 26 51", link: "tel:+22674442651" },
-                  { icon: <Phone />, label: "Téléphone (Alt)", value: "+226 05 74 23 94", link: "tel:+22605742394" },
-                  { icon: <MapPin />, label: "Localisation", value: "Toudweogo, Secteur 39, Ouagadougou, BF" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-6 group">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all shadow-lg group-hover:shadow-cyan-900/20">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <p className="text-xs font-mono text-gray-500 uppercase tracking-widest">{item.label}</p>
-                      {item.link ? (
-                        <a href={item.link} className="text-white font-bold text-lg hover:text-cyan-400 transition-colors">{item.value}</a>
-                      ) : (
-                        <p className="text-white font-bold text-lg">{item.value}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="bg-slate-800/40 p-10 rounded-3xl border border-white/5 relative overflow-hidden">
-              {isSubmitted ? (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center text-center py-12"
-                >
-                  <div className="w-20 h-20 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 font-bold shadow-[0_0_30px_rgba(6,182,212,0.2)] border border-cyan-500/20">
-                    <Rocket className="w-10 h-10" />
-                  </div>
-                  <h3 className="text-3xl font-bold mb-4">Message envoyé !</h3>
-                  <p className="text-gray-400 max-w-xs mx-auto mb-8">
-                    Merci pour votre message. Je reviendrai vers vous dans les plus brefs délais.
-                  </p>
-                  <button 
-                    onClick={() => setIsSubmitted(false)}
-                    className="text-cyan-400 font-bold hover:text-cyan-300 transition-colors"
-                  >
-                    Envoyer un autre message
-                  </button>
-                </motion.div>
-              ) : (
-                <form className="space-y-6" onSubmit={handleFormSubmit}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-400 ml-1">Nom Complet</label>
-                      <input 
-                        required
-                        type="text" 
-                        name="name"
-                        value={formData.name}
-                        onChange={handleFormChange}
-                        placeholder="Votre nom"
-                        className="w-full px-6 py-4 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 focus:border-cyan-500 outline-none text-white transition-all hover:bg-slate-900/80"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
-                      <input 
-                        required
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleFormChange}
-                        placeholder="votre@email.com"
-                        className="w-full px-6 py-4 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 focus:border-cyan-500 outline-none text-white transition-all hover:bg-slate-900/80"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 ml-1">Message</label>
-                    <textarea 
-                      required
-                      name="message"
-                      value={formData.message}
-                      onChange={handleFormChange}
-                      rows={5}
-                      placeholder="Comment puis-je vous aider ?"
-                      className="w-full px-6 py-4 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 focus:border-cyan-500 outline-none text-white transition-all resize-none hover:bg-slate-900/80"
-                    ></textarea>
-                  </div>
-                  <button 
-                    disabled={isSubmitting}
-                    className="w-full py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-xl shadow-cyan-900/20 flex items-center justify-center gap-3 group relative overflow-hidden"
-                  >
-                    {isSubmitting ? (
-                      <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        Envoyer le message
-                        <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
+          <div className="text-center mb-16">
+            <SectionTitle title="Restons en Contact" subtitle="Contact" />
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto mt-4">
+              Vous avez un projet en tête ou souhaitez simplement échanger ? <br />
+              N'hésitez pas à me joindre via l'un des canaux ci-dessous.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: <Mail />, label: "Email", value: "wenkuni20@outlook.com", link: "mailto:wenkuni20@outlook.com", color: "cyan" },
+              { icon: <MessageCircle />, label: "WhatsApp", value: "+226 74 44 26 51", link: "https://wa.me/22674442651", color: "green" },
+              { icon: <Phone />, label: "Appel", value: "+226 05 74 23 94", link: "tel:+22605742394", color: "orange" },
+              { icon: <MapPin />, label: "Localisation", value: "Ouagadougou, Burkina Faso", color: "blue" }
+            ].map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="p-8 rounded-3xl bg-slate-800/40 border border-white/5 hover:border-cyan-500/30 transition-all group flex flex-col items-center text-center"
+              >
+                <div className={`w-16 h-16 rounded-2xl mb-6 flex items-center justify-center transition-all shadow-lg group-hover:scale-110 ${
+                  item.color === 'cyan' ? 'bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white' :
+                  item.color === 'green' ? 'bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white' :
+                  item.color === 'orange' ? 'bg-orange-500/10 text-orange-400 group-hover:bg-orange-500 group-hover:text-white' :
+                  'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white'
+                }`}>
+                  {item.icon}
+                </div>
+                <p className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-2">{item.label}</p>
+                {item.link ? (
+                  <a href={item.link} className="text-white font-bold text-lg hover:text-cyan-400 transition-colors break-all">{item.value}</a>
+                ) : (
+                  <p className="text-white font-bold text-lg">{item.value}</p>
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
