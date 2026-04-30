@@ -189,6 +189,27 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Contact Form State
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setIsSubmitting(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormData({ name: '', email: '', message: '' });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -580,39 +601,82 @@ export default function App() {
               </div>
             </div>
             
-            <div className="bg-slate-800/40 p-10 rounded-3xl border border-white/5">
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 ml-1">Nom Complet</label>
-                    <input 
-                      type="text" 
-                      placeholder="Votre nom"
-                      className="w-full px-6 py-4 rounded-xl bg-slate-900 border border-white/10 focus:border-cyan-500 outline-none text-white transition-all"
-                    />
+            <div className="bg-slate-800/40 p-10 rounded-3xl border border-white/5 relative overflow-hidden">
+              {isSubmitted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center text-center py-12"
+                >
+                  <div className="w-20 h-20 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 font-bold shadow-[0_0_30px_rgba(6,182,212,0.2)] border border-cyan-500/20">
+                    <Rocket className="w-10 h-10" />
+                  </div>
+                  <h3 className="text-3xl font-bold mb-4">Message envoyé !</h3>
+                  <p className="text-gray-400 max-w-xs mx-auto mb-8">
+                    Merci pour votre message. Je reviendrai vers vous dans les plus brefs délais.
+                  </p>
+                  <button 
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-cyan-400 font-bold hover:text-cyan-300 transition-colors"
+                  >
+                    Envoyer un autre message
+                  </button>
+                </motion.div>
+              ) : (
+                <form className="space-y-6" onSubmit={handleFormSubmit}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-400 ml-1">Nom Complet</label>
+                      <input 
+                        required
+                        type="text" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleFormChange}
+                        placeholder="Votre nom"
+                        className="w-full px-6 py-4 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 focus:border-cyan-500 outline-none text-white transition-all hover:bg-slate-900/80"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
+                      <input 
+                        required
+                        type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        placeholder="votre@email.com"
+                        className="w-full px-6 py-4 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 focus:border-cyan-500 outline-none text-white transition-all hover:bg-slate-900/80"
+                      />
+                    </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
-                    <input 
-                      type="email" 
-                      placeholder="votre@email.com"
-                      className="w-full px-6 py-4 rounded-xl bg-slate-900 border border-white/10 focus:border-cyan-500 outline-none text-white transition-all"
-                    />
+                    <label className="text-sm font-medium text-gray-400 ml-1">Message</label>
+                    <textarea 
+                      required
+                      name="message"
+                      value={formData.message}
+                      onChange={handleFormChange}
+                      rows={5}
+                      placeholder="Comment puis-je vous aider ?"
+                      className="w-full px-6 py-4 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 focus:border-cyan-500 outline-none text-white transition-all resize-none hover:bg-slate-900/80"
+                    ></textarea>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-400 ml-1">Message</label>
-                  <textarea 
-                    rows={5}
-                    placeholder="Comment puis-je vous aider ?"
-                    className="w-full px-6 py-4 rounded-xl bg-slate-900 border border-white/10 focus:border-cyan-500 outline-none text-white transition-all resize-none"
-                  ></textarea>
-                </div>
-                <button className="w-full py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all shadow-xl shadow-cyan-900/20 flex items-center justify-center gap-3 group">
-                  Envoyer le message
-                  <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
-              </form>
+                  <button 
+                    disabled={isSubmitting}
+                    className="w-full py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-xl shadow-cyan-900/20 flex items-center justify-center gap-3 group relative overflow-hidden"
+                  >
+                    {isSubmitting ? (
+                      <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        Envoyer le message
+                        <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
