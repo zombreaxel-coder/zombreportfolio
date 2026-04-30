@@ -237,14 +237,10 @@ export default function App() {
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollTo('hero')}>
             <div className="w-10 h-10 rounded-full border-2 border-cyan-500/50 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.3)] bg-slate-800 flex items-center justify-center">
               <img 
-                src="/profile_alt.png" 
+                src="/profile.png" 
                 alt="Axel Zombré" 
                 className="w-full h-full object-cover"
                 loading="lazy"
-                decoding="async"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/profile.png';
-                }}
               />
             </div>
             <span className="font-bold text-xl tracking-tight hidden sm:block">AXEL ZOMBRÉ</span>
@@ -316,14 +312,10 @@ export default function App() {
             <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-white/10 p-2 relative z-10 backdrop-blur-sm bg-slate-900/50 flex items-center justify-center">
               <div className="w-full h-full rounded-full overflow-hidden border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.4)]">
                 <img 
-                  src="/profile_alt.png" 
+                  src="/profile.png" 
                   alt="Axel Zombré" 
                   className="w-full h-full object-cover"
                   loading="eager"
-                  decoding="async"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/profile.png';
-                  }}
                 />
               </div>
             </div>
