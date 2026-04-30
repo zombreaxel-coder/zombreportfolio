@@ -247,29 +247,6 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              {/* Small Stylish Profile Image */}
-              <motion.div 
-                initial={{ scale: 0, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: "spring", damping: 12, stiffness: 100, delay: 0.3 }}
-                className="relative w-32 h-32 mx-auto mb-10 group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-orange-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity" />
-                <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-white/20 bg-slate-800 shadow-2xl">
-                  <img 
-                    src="/regenerated_image_1777537327781.png" 
-                    alt="Axel Zombré"
-                    className="w-full h-full object-cover hover:scale-110 transition-all duration-500"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300";
-                    }}
-                  />
-                </div>
-                <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center border-4 border-[#0a0f1d] text-white">
-                  <Rocket className="w-5 h-5" />
-                </div>
-              </motion.div>
-
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-6 mx-auto">
                 <Box className="w-4 h-4" />
                 <span>Disponible pour de nouveaux défis</span>
