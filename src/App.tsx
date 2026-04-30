@@ -23,7 +23,9 @@ import {
   Users,
   Target,
   Clock,
-  Box
+  Box,
+  Menu,
+  X
 } from 'lucide-react';
 
 // --- Types ---
@@ -186,6 +188,7 @@ const SectionTitle = (props: { title: string; subtitle?: string }) => {
 export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -197,6 +200,7 @@ export default function App() {
 
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
+    setMobileMenuOpen(false);
     if (element) {
       const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
@@ -220,7 +224,7 @@ export default function App() {
             <span className="font-bold text-xl tracking-tight">AXEL ZOMBRÉ</span>
           </div>
           
-          <div className="flex gap-8 items-center">
+          <div className="hidden md:flex gap-8 items-center">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
@@ -231,7 +235,42 @@ export default function App() {
               </button>
             ))}
           </div>
+
+          <button 
+            className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ 
+            opacity: mobileMenuOpen ? 1 : 0,
+            height: mobileMenuOpen ? 'auto' : 0
+          }}
+          className="md:hidden overflow-hidden bg-[#0a0f1d]/95 backdrop-blur-xl border-b border-white/5"
+        >
+          <div className="px-6 py-8 flex flex-col gap-6">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className={`text-lg font-bold text-left transition-colors ${activeSection === item.id ? 'text-cyan-400' : 'text-white'}`}
+              >
+                {item.label}
+              </button>
+            ))}
+            <button 
+              onClick={() => scrollTo('contact')}
+              className="mt-4 w-full py-4 bg-orange-500 text-white font-bold rounded-xl"
+            >
+              Me contacter
+            </button>
+          </div>
+        </motion.div>
       </nav>
 
       {/* Hero Section */}
