@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, ReactNode } from 'react';
-import { motion } from 'motion/react';
+import { motion, useScroll, useSpring } from 'motion/react';
 import { 
   Mail, 
   Phone, 
@@ -191,6 +191,13 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -218,11 +225,25 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0a0f1d] text-white selection:bg-cyan-500/30 selection:text-cyan-400">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 to-orange-500 z-[60] origin-left"
+        style={{ scaleX }}
+      />
+
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0f1d]/90 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollTo('hero')}>
-            <span className="font-bold text-xl tracking-tight">AXEL ZOMBRÉ</span>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollTo('hero')}>
+            <div className="w-10 h-10 rounded-full border-2 border-cyan-500/50 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+              <img 
+                src="/regenerated_image_1777537382436.png" 
+                alt="Axel Zombré" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <span className="font-bold text-xl tracking-tight hidden sm:block">AXEL ZOMBRÉ</span>
           </div>
           
           <div className="hidden md:flex gap-8 items-center">
@@ -281,6 +302,28 @@ export default function App() {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-500/10 blur-[120px] rounded-full -ml-20 -mb-20" />
         
         <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="mb-10 relative"
+          >
+            {/* Styled Avatar for Hero */}
+            <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-white/10 p-2 relative z-10 backdrop-blur-sm">
+              <div className="w-full h-full rounded-full overflow-hidden border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.4)]">
+                <img 
+                  src="/regenerated_image_1777537382436.png" 
+                  alt="Axel Zombré" 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+            {/* Decorative circles */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-cyan-500/20 rounded-full animate-[spin_10s_linear_infinite]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-orange-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+          </motion.div>
+
           <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
