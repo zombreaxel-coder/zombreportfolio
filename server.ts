@@ -40,7 +40,7 @@ async function startServer() {
       
       const { data, error } = await resend.emails.send({
         from: 'Contact Portefolio <onboarding@resend.dev>',
-        to: ['axelzombre11@gmail.com'],
+        to: ['wenkuni20@outlook.com'],
         subject: `Nouveau message de ${name}`,
         html: `
           <h3>Nouveau message de contact</h3>
